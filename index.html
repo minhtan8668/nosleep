@@ -34,6 +34,14 @@
             font-weight: bold;
             font-size: 16px;
         }
+        /* CSS cho bộ đếm thời gian */
+        #timer {
+            margin-top: 15px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            font-family: monospace; /* Font monospace giúp các số không bị giật khi nhảy giây */
+        }
     </style>
 </head>
 <body>
@@ -42,12 +50,60 @@
     <h2>Trạng thái màn hình</h2>
     <button id="toggleBtn" class="off">Bật Chống Sleep</button>
     <div id="status" style="color: gray;">Đang tắt</div>
+    <!-- Hiển thị thời gian -->
+    <div id="timer">00:00:00</div>
 </div>
 
 <script>
     let wakeLock = null;
+    let timerInterval = null;
+    let startTime = 0;
+    let elapsedTime = 0; // Lưu thời gian đã chạy khi bị tạm dừng (chuyển tab)
+    let isIntendedActive = false; // Biến kiểm tra xem người dùng có chủ động bật không
+
     const toggleBtn = document.getElementById('toggleBtn');
     const statusDiv = document.getElementById('status');
+    const timerDiv = document.getElementById('timer');
+
+    // Hàm định dạng thời gian thành HH:MM:SS
+    function formatTime(seconds) {
+        const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+        const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+        const s = String(seconds % 60).padStart(2, '0');
+        return `${h}:${m}:${s}`;
+    }
+
+    // Hàm cập nhật đồng hồ trên giao diện
+    function updateTimer() {
+        const now = Math.floor(Date.now() / 1000);
+        const total = elapsedTime + (now - startTime);
+        timerDiv.textContent = formatTime(total);
+    }
+
+    // Bắt đầu đếm thời gian
+    function startTimer() {
+        if (!timerInterval) {
+            startTime = Math.floor(Date.now() / 1000);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+    }
+
+    // Tạm dừng đếm thời gian (dùng khi ẩn tab)
+    function stopTimer() {
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            const now = Math.floor(Date.now() / 1000);
+            elapsedTime += (now - startTime);
+        }
+    }
+
+    // Reset bộ đếm về 0
+    function resetTimer() {
+        stopTimer();
+        elapsedTime = 0;
+        timerDiv.textContent = "00:00:00";
+    }
 
     // Hàm kích hoạt chống sleep
     async function requestWakeLock() {
@@ -60,14 +116,24 @@
             toggleBtn.textContent = "Tắt Chống Sleep";
             toggleBtn.className = "on";
 
+            startTimer(); // Bắt đầu đếm giờ
+
             // Lắng nghe nếu hệ thống tự động giải phóng (ví dụ khi ẩn tab)
             wakeLock.addEventListener('release', () => {
-                resetUI();
+                wakeLock = null;
+                if (isIntendedActive) {
+                    // Nếu người dùng không bấm tắt mà do hệ thống giải phóng (ẩn tab)
+                    statusDiv.textContent = "Tạm dừng (Do ẩn Tab)";
+                    statusDiv.style.color = "orange";
+                    stopTimer(); // Tạm dừng đếm giờ
+                }
             });
 
         } catch (err) {
             statusDiv.textContent = `Lỗi: ${err.message}`;
             statusDiv.style.color = "red";
+            isIntendedActive = false;
+            resetTimer();
         }
     }
 
@@ -85,6 +151,7 @@
         statusDiv.style.color = "gray";
         toggleBtn.textContent = "Bật Chống Sleep";
         toggleBtn.className = "off";
+        resetTimer(); // Xóa bộ đếm
     }
 
     // Xử lý sự kiện khi nhấn nút
@@ -95,16 +162,22 @@
             return;
         }
 
-        if (wakeLock === null) {
+        if (!isIntendedActive) {
+            // Người dùng chủ động bật
+            isIntendedActive = true;
+            resetTimer(); 
             await requestWakeLock();
         } else {
+            // Người dùng chủ động tắt
+            isIntendedActive = false;
             releaseWakeLock();
+            resetUI();
         }
     });
 
-    // Tự động kích hoạt lại nếu người dùng chuyển tab rồi quay lại
+    // Tự động kích hoạt và chạy tiếp thời gian khi người dùng quay lại tab
     document.addEventListener('visibilitychange', async () => {
-        if (wakeLock !== null && document.visibilityState === 'visible') {
+        if (isIntendedActive && document.visibilityState === 'visible') {
             await requestWakeLock();
         }
     });
