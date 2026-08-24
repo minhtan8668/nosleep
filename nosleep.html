@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chặn Máy Tính Sleep</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            transition: 0.3s;
+        }
+        .off { background-color: #007bff; }
+        .on { background-color: #dc3545; }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Trạng thái màn hình</h2>
+    <button id="toggleBtn" class="off">Bật Chống Sleep</button>
+    <div id="status" style="color: gray;">Đang tắt</div>
+</div>
+
+<script>
+    let wakeLock = null;
+    const toggleBtn = document.getElementById('toggleBtn');
+    const statusDiv = document.getElementById('status');
+
+    // Hàm kích hoạt chống sleep
+    async function requestWakeLock() {
+        try {
+            wakeLock = await navigator.wakeLock.request('screen');
+            
+            // Cập nhật giao diện khi bật thành công
+            statusDiv.textContent = "Đang giữ màn hình luôn sáng 💡";
+            statusDiv.style.color = "green";
+            toggleBtn.textContent = "Tắt Chống Sleep";
+            toggleBtn.className = "on";
+
+            // Lắng nghe nếu hệ thống tự động giải phóng (ví dụ khi ẩn tab)
+            wakeLock.addEventListener('release', () => {
+                resetUI();
+            });
+
+        } catch (err) {
+            statusDiv.textContent = `Lỗi: ${err.message}`;
+            statusDiv.style.color = "red";
+        }
+    }
+
+    // Hàm tắt chống sleep
+    function releaseWakeLock() {
+        if (wakeLock !== null) {
+            wakeLock.release();
+            wakeLock = null;
+        }
+    }
+
+    // Đưa giao diện về trạng thái ban đầu
+    function resetUI() {
+        statusDiv.textContent = "Đang tắt";
+        statusDiv.style.color = "gray";
+        toggleBtn.textContent = "Bật Chống Sleep";
+        toggleBtn.className = "off";
+    }
+
+    // Xử lý sự kiện khi nhấn nút
+    toggleBtn.addEventListener('click', async () => {
+        if (!('wakeLock' in navigator)) {
+            statusDiv.textContent = "Trình duyệt của bạn không hỗ trợ tính năng này.";
+            statusDiv.style.color = "red";
+            return;
+        }
+
+        if (wakeLock === null) {
+            await requestWakeLock();
+        } else {
+            releaseWakeLock();
+        }
+    });
+
+    // Tự động kích hoạt lại nếu người dùng chuyển tab rồi quay lại
+    document.addEventListener('visibilitychange', async () => {
+        if (wakeLock !== null && document.visibilityState === 'visible') {
+            await requestWakeLock();
+        }
+    });
+</script>
+
+</body>
+</html>
