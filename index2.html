@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi" itemscope itemtype="http://schema.org/WebPage">
+<head itemscope itemtype="https://schema.org/WebSite">
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#0076b6" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ tính thuế VAT online</title>
+    <link rel="icon" href="https://vutruso.com/wp-content/uploads/2020/12/cropped-favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" href="https://vutruso.com/wp-content/uploads/2020/12/cropped-favicon-192x192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://vutruso.com/wp-content/uploads/2020/12/cropped-favicon-180x180.png" />
+    <meta name="msapplication-TileImage" content="https://vutruso.com/wp-content/uploads/2020/12/cropped-favicon-270x270.png" />
+    <meta property="og:url" content="https://vutruso.com/tinh-thue/">
+    <link rel="canonical" href="https://vutruso.com/tinh-thue/">
+    <meta name="description" content="Công cụ tính thuế VAT thuận hoặc nghịch chính xác, nhanh chóng với giao diện hiện đại và hoàn toàn miễn phí cho mọi người">
+    <meta property="og:site_name" content="Công cụ tính VAT ngược hoặc thuận">
+    <meta property="og:locale" content="vi_VN">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Công cụ tính VAT ngược hoặc thuận">
+    <meta property="og:description" content="Công cụ tính thuế VAT thuận hoặc nghịch chính xác, nhanh chóng với giao diện hiện đại và hoàn toàn miễn phí cho mọi người">
+    <meta property="og:image" content="https://vutruso.com/wp-content/uploads/2025/06/cong-cu-tinh-thue-vat.png">
+    <meta property="og:image:secure_url" content="https://vutruso.com/wp-content/uploads/2025/06/cong-cu-tinh-thue-vat.png">
+    <meta property="og:image:width" content="405">
+    <meta property="og:image:height" content="270">
+    <meta property="og:image:alt" content="Vutruso">
+    <meta property="fb:admins" content="100002603951764">
+    <meta property="fb:app_id" content="426093174678491">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@vutruso">
+    <meta name="twitter:title" content="Công cụ tính VAT ngược hoặc thuận">
+    <meta name="twitter:description" content="Công cụ tính thuế VAT thuận hoặc nghịch chính xác, nhanh chóng với giao diện hiện đại và hoàn toàn miễn phí cho mọi người">
+    <meta name="twitter:image" content="https://vutruso.com/wp-content/uploads/2025/06/cong-cu-tinh-thue-vat.png">
+    <link rel='stylesheet' href='https://vutruso.com/wp-content/themes/vutruso/assets/css/pages/vat.css?v=3.4' media='all' />
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Vũ Trụ Số",
+      "url": "https://vutruso.com",
+      "alternateName": "Vũ Trụ Số",
+      "description": "Vũ Trụ Số chuyên cung cấp các giải pháp công nghệ, thiết kế website...",
+      "logo": "https://vutruso.com/wp-content/uploads/2020/07/vutruso_login.jpg",
+      "sameAs": [
+        "https://www.facebook.com/vutruso",
+        "https://twitter.com/@vutruso"
+      ],
+      "vatID": "0317358676",
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "telephone": "+84868017791",
+        "email": "info@vutruso.com",
+        "contactOption": "TollFree",
+        "contactType": "customer support"
+      }]
+    }
+    </script>
+</head>
+<body>
+    <div class="header-banner">
+        <div class="header-content">
+            <h1 class="main-title">💰 Công cụ tính thuế VAT</h1>
+            <p class="sub-title">Tính thuế VAT chính xác, nhanh chóng và miễn phí với giao diện hiện đại</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="calculator-card">
+            <div class="card-header">
+                <h2 class="card-title">🧮 Tính toán thuế VAT chính xác</h2>
+            </div>
+
+            <div class="card-body">
+                <form id="vatCalculationForm" onsubmit="return false;">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="txtNumber">💵 Nhập số tiền (VNĐ)</label>
+                                <input type="text" id="txtNumber" class="form-input" placeholder="Ví dụ: 1.000.000" inputmode="numeric">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="txtVAT">📊 Thuế suất VAT (%)</label>
+                                <input type="number" id="txtVAT" class="form-input" placeholder="Nhập % VAT" value="10" min="0" max="100" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="radio-section">
+                        <div class="radio-title">⚙️ Chọn phương thức tính</div>
+                        <div class="radio-group">
+                            <div class="radio-option" data-option="forward">
+                                <input type="radio" id="optVat1" name="optVAT" value="forward">
+                                <label for="optVat1" class="radio-label">📈 Số tiền chưa có thuế VAT (tính thuế xuôi)</label>
+                            </div>
+                            <div class="radio-option selected" data-option="reverse">
+                                <input type="radio" id="optVat2" name="optVAT" value="reverse" checked>
+                                <label for="optVat2" class="radio-label">📉 Số tiền đã có VAT (tính thuế ngược)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calculate-section">
+                        <button type="button" id="btnSubmit" class="btn-calculate">
+                            🚀 Tính toán ngay
+                        </button>
+                    </div>
+                </form>
+
+                <div id="results" class="results-section" style="display: none;">
+                    <div class="results-header">
+                        <h3 class="results-title">📋 Kết quả tính toán</h3>
+                    </div>
+                    <div class="results-body">
+                        <div class="result-item">
+                            <span class="result-label">💰 Số tiền trước thuế:</span>
+                            <div class="result-value-group">
+                                <span class="result-value" id="preTaxAmount">0 VNĐ</span>
+                                <button class="copy-icon-btn" onclick="copyToClipboard('preTaxAmount')" title="Copy số tiền">
+                                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="result-words-row">
+                            <span class="result-words" id="preTaxAmountWords"></span>
+                            <button class="copy-icon-btn" onclick="copyText('preTaxAmountWords')" title="Copy bằng chữ">
+                                <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">🏷️ Thuế VAT:</span>
+                            <div class="result-value-group">
+                                <span class="result-value" id="vatAmount">0 VNĐ</span>
+                                <button class="copy-icon-btn" onclick="copyToClipboard('vatAmount')" title="Copy số tiền">
+                                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="result-words-row">
+                            <span class="result-words" id="vatAmountWords"></span>
+                            <button class="copy-icon-btn" onclick="copyText('vatAmountWords')" title="Copy bằng chữ">
+                                <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">💎 Số tiền sau thuế:</span>
+                            <div class="result-value-group">
+                                <span class="result-value highlight" id="totalWithVAT">0 VNĐ</span>
+                                <button class="copy-icon-btn" onclick="copyToClipboard('totalWithVAT')" title="Copy số tiền">
+                                    <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="result-words-row">
+                            <span class="result-words" id="totalWithVATWords"></span>
+                            <button class="copy-icon-btn" onclick="copyText('totalWithVATWords')" title="Copy bằng chữ">
+                                <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </button>
+                        </div>
+                        <div class="copy-all-section">
+                            <button class="copy-all-btn" onclick="copyAllResults()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                Copy tất cả kết quả
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-header">
+                <h3 class="info-title">📚 Hướng dẫn sử dụng và công thức tính</h3>
+            </div>
+            <div class="info-body">
+                <div class="info-content">
+                    <div class="info-content-preview">
+                        <h4>🔄 1. Tính thuế VAT ngược (từ giá đã có thuế)</h4>
+                        <p>Khi bạn biết giá bán đã bao gồm thuế VAT và muốn tính ra giá gốc:</p>
+                        <div class="formula-box">
+                            <strong>📐 Công thức:</strong><br>
+                            • Giá trước thuế = Giá đã có thuế ÷ (1 + thuế suất VAT)<br>
+                            • Thuế VAT = Giá đã có thuế - Giá trước thuế
+                        </div>
+                        <div class="example-box">
+                            <strong>💡 Ví dụ:</strong> Giá bán 11,000,000 VNĐ (đã có VAT 10%)<br>
+                            • Giá trước thuế = 11,000,000 ÷ (1 + 0.1) = 10,000,000 VNĐ<br>
+                            • Thuế VAT = 11,000,000 - 10,000,000 = 1,000,000 VNĐ
+                        </div>
+                    </div>
+
+                    <div id="infoContentMore" class="info-content-more" hidden>
+                        <h4>➡️ 2. Tính thuế VAT xuôi (từ giá chưa có thuế)</h4>
+                        <p>Khi bạn biết giá gốc chưa thuế và muốn tính giá bán có thuế:</p>
+                        <div class="formula-box">
+                            <strong>📐 Công thức:</strong><br>
+                            • Thuế VAT = Giá trước thuế × thuế suất VAT<br>
+                            • Giá sau thuế = Giá trước thuế + Thuế VAT
+                        </div>
+                        <div class="example-box">
+                            <strong>💡 Ví dụ:</strong> Giá gốc 10,000,000 VNĐ (chưa có VAT 10%)<br>
+                            • Thuế VAT = 10,000,000 × 0.1 = 1,000,000 VNĐ<br>
+                            • Giá sau thuế = 10,000,000 + 1,000,000 = 11,000,000 VNĐ
+                        </div>
+
+                        <h4>📈 3. Các mức thuế suất VAT phổ biến tại Việt Nam</h4>
+                        <div class="vat-rates">
+                            <div class="vat-rate-item">
+                                <strong>0%:</strong> Hàng hóa xuất khẩu, một số dịch vụ công ích
+                            </div>
+                            <div class="vat-rate-item">
+                                <strong>5%:</strong> Nước sạch, thức ăn chăn nuôi, phân bón, sách giáo khoa
+                            </div>
+                            <div class="vat-rate-item">
+                                <strong>10%:</strong> Hàng hóa và dịch vụ thông thường
+                            </div>
+                            <div class="vat-rate-item">
+                                <strong>Không chịu thuế:</strong> Một số dịch vụ tài chính, y tế, giáo dục, gia công phần mềm
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-content-toggle-wrap">
+                        <button type="button" id="infoToggleBtn" class="info-toggle-btn" aria-expanded="false" aria-controls="infoContentMore">
+                            <span class="info-toggle-label">Xem thêm</span>
+                            <svg class="info-toggle-chevron" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="seo-footer" style="background: #f8f9fa; border-radius: 8px; padding: 20px; text-align: center; border-top: 3px solid #4285f4; margin: 20px 10px 0 10px;">
+                <div class="footer-content">
+                    <p style="margin-bottom: 10px; color: #666;"><strong>Công cụ tính toán thuế VAT</strong> giúp bạn tiết kiệm thời gian tính VAT</p>
+                    <p style="margin-bottom: 10px; color: #666;">Phát triển bởi <a style="color: #4285f4;" href="https://vutruso.com/">Vũ Trụ Số</a> hỗ trợ cộng đồng kế toán Việt Nam.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div id="notification" class="notification" role="status" aria-live="polite" aria-hidden="true"></div>
+
+    <script>
+        // Doc so tieng Viet
+        function numberToVietnameseWords(num) {
+            if (isNaN(num) || num === 0) return 'không đồng';
+            num = Math.round(num);
+            if (num < 0) return 'âm ' + numberToVietnameseWords(-num);
+
+            const ones = ['', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+            const units = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ', 'triệu tỷ'];
+
+            function readThreeDigits(n, showZeroHundred) {
+                let str = '';
+                const hundred = Math.floor(n / 100);
+                const remainder = n % 100;
+                const ten = Math.floor(remainder / 10);
+                const one = remainder % 10;
+
+                if (hundred > 0 || showZeroHundred) {
+                    str += ones[hundred] + ' trăm ';
+                }
+
+                if (ten === 0 && one > 0 && (hundred > 0 || showZeroHundred)) {
+                    str += 'lẻ ';
+                } else if (ten === 1) {
+                    str += 'mười ';
+                } else if (ten > 1) {
+                    str += ones[ten] + ' mươi ';
+                }
+
+                if (one === 1 && ten > 1) {
+                    str += 'mốt';
+                } else if (one === 5 && ten > 0) {
+                    str += 'lăm';
+                } else if (one === 4 && ten > 1) {
+                    str += 'tư';
+                } else if (one > 0 && !(ten === 0 && one === 0)) {
+                    str += ones[one];
+                }
+                return str.trim();
+            }
+
+            const groups = [];
+            let temp = num;
+            while (temp > 0) {
+                groups.push(temp % 1000);
+                temp = Math.floor(temp / 1000);
+            }
+
+            let result = '';
+            for (let i = groups.length - 1; i >= 0; i--) {
+                if (groups[i] > 0) {
+                    const showZeroHundred = i < groups.length - 1 && groups[i] < 100;
+                    const text = readThreeDigits(groups[i], showZeroHundred);
+                    if (text) {
+                        result += text + ' ' + units[i] + ' ';
+                    }
+                }
+            }
+
+            result = result.trim();
+            return result.charAt(0).toUpperCase() + result.slice(1) + ' đồng';
+        }
+
+        // Format Utilities
+        function formatNumber(num) {
+            if (isNaN(num) || num === 0) return '0';
+            return Math.round(num).toLocaleString('vi-VN');
+        }
+
+        function parseNumber(str) {
+            if (!str) return 0;
+            let cleanStr = str.replace(/[.,]/g, '').replace(/[^\d-]/g, '');
+            return parseInt(cleanStr, 10) || 0;
+        }
+
+        // Notifications
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.background = isError ? '#f44336' : '#4CAF50';
+            notification.setAttribute('aria-hidden', 'false');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.setAttribute('aria-hidden', 'true');
+            }, 3000);
+        }
+
+        // Clipboard Actions
+        function copyText(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            const btn = element.parentElement.querySelector('.copy-icon-btn');
+            executeCopy(text, btn || element);
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+            const btn = element.parentElement.querySelector('.copy-icon-btn');
+            const numberOnly = text.replace(' VNĐ', '');
+            executeCopy(numberOnly, btn || element);
+        }
+
+        function copyAllResults() {
+            const preTax = document.getElementById('preTaxAmount').textContent.replace(' VNĐ', '');
+            const vat = document.getElementById('vatAmount').textContent.replace(' VNĐ', '');
+            const total = document.getElementById('totalWithVAT').textContent.replace(' VNĐ', '');
+            const preTaxWords = document.getElementById('preTaxAmountWords').textContent;
+            const vatWords = document.getElementById('vatAmountWords').textContent;
+            const totalWords = document.getElementById('totalWithVATWords').textContent;
+            const vatRate = document.getElementById('txtVAT').value;
+
+            const allResults = `Kết quả tính thuế VAT ${vatRate}%:\n- Số tiền trước thuế: ${preTax} VNĐ (${preTaxWords})\n- Thuế VAT: ${vat} VNĐ (${vatWords})\n- Số tiền sau thuế: ${total} VNĐ (${totalWords})`;
+            executeCopy(allResults, document.querySelector('.copy-all-btn'), '📋 Đã sao chép tất cả kết quả!');
+        }
+
+        function executeCopy(text, element, successMsg = '📋 Đã sao chép thành công!') {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyFeedback(element);
+                    showNotification(successMsg);
+                }).catch(() => fallbackCopy(text, element, successMsg));
+            } else {
+                fallbackCopy(text, element, successMsg);
+            }
+        }
+
+        function fallbackCopy(text, element, successMsg) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopyFeedback(element);
+                showNotification(successMsg);
+            } catch (err) {
+                showNotification('❌ Không thể sao chép. Vui lòng làm thủ công.', true);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showCopyFeedback(element) {
+            if (element.classList.contains('copy-icon-btn')) {
+                const copyIcon = element.querySelector('.copy-icon');
+                const checkIcon = element.querySelector('.check-icon');
+                if (copyIcon && checkIcon) {
+                    copyIcon.style.display = 'none';
+                    checkIcon.style.display = 'block';
+                    element.style.color = '#28a745';
+                    setTimeout(() => {
+                        copyIcon.style.display = 'block';
+                        checkIcon.style.display = 'none';
+                        element.style.color = '';
+                    }, 1500);
+                }
+                return;
+            }
+
+            const originalHTML = element.innerHTML;
+            element.innerHTML = '✅ Đã copy!';
+            element.style.background = '#28a745';
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style.background = '';
+            }, 1500);
+        }
+
+        // Calculation Engine
+        function calculateVAT() {
+            const amountStr = document.getElementById('txtNumber').value;
+            const vatRateStr = document.getElementById('txtVAT').value;
+
+            if (!amountStr || !vatRateStr) {
+                showNotification('⚠️ Vui lòng nhập đầy đủ thông tin!', true);
+                return;
+            }
+
+            const amount = parseNumber(amountStr);
+            const vatRate = parseFloat(vatRateStr);
+
+            if (amount <= 0) {
+                showNotification('❌ Số tiền phải lớn hơn 0!', true);
+                return;
+            }
+
+            if (vatRate < 0 || vatRate > 100) {
+                showNotification('❌ Thuế suất VAT phải từ 0% đến 100%!', true);
+                return;
+            }
+
+            const vatDecimal = vatRate / 100;
+            let preTaxAmount, vatAmount, totalWithVAT;
+
+            if (document.getElementById('optVat1').checked) {
+                preTaxAmount = amount;
+                vatAmount = Math.round(preTaxAmount * vatDecimal);
+                totalWithVAT = preTaxAmount + vatAmount;
+            } else {
+                totalWithVAT = amount;
+                preTaxAmount = Math.round(totalWithVAT / (1 + vatDecimal));
+                vatAmount = totalWithVAT - preTaxAmount;
+            }
+
+            document.getElementById('preTaxAmount').textContent = formatNumber(preTaxAmount) + ' VNĐ';
+            document.getElementById('vatAmount').textContent = formatNumber(vatAmount) + ' VNĐ';
+            document.getElementById('totalWithVAT').textContent = formatNumber(totalWithVAT) + ' VNĐ';
+
+            document.getElementById('preTaxAmountWords').textContent = numberToVietnameseWords(preTaxAmount);
+            document.getElementById('vatAmountWords').textContent = numberToVietnameseWords(vatAmount);
+            document.getElementById('totalWithVATWords').textContent = numberToVietnameseWords(totalWithVAT);
+
+            const resultsSection = document.getElementById('results');
+            resultsSection.style.display = 'block';
+
+            setTimeout(() => {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+
+            showNotification('✅ Tính toán thành công!');
+        }
+
+        // DOM Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const numberInput = document.getElementById('txtNumber');
+            const calculateBtn = document.getElementById('btnSubmit');
+            const infoToggleBtn = document.getElementById('infoToggleBtn');
+            const infoContentMore = document.getElementById('infoContentMore');
+
+            // Format tien te live
+            numberInput.addEventListener('input', function(e) {
+                let value = parseNumber(e.target.value);
+                e.target.value = value > 0 ? value.toLocaleString('vi-VN') : '';
+            });
+
+            // Selection Radio
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const radio = this.querySelector('input[type="radio"]');
+                    radio.checked = true;
+                });
+            });
+
+            // Action triggers
+            calculateBtn.addEventListener('click', calculateVAT);
+
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateVAT();
+                }
+            });
+
+            // Toggle Expand/Collapse
+            if (infoToggleBtn && infoContentMore) {
+                infoToggleBtn.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    infoContentMore.hidden = isExpanded;
+                    
+                    const label = this.querySelector('.info-toggle-label');
+                    if (label) label.textContent = isExpanded ? 'Xem thêm' : 'Thu gọn';
+                    
+                    this.classList.toggle('active', !isExpanded);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
